@@ -1,10 +1,11 @@
 precision mediump float;
 
-attribute vec3 vPosition;
-attribute vec3 vColor;
+attribute vec2 vPosition;
+attribute vec3 vCubePosition;
 attribute vec3 vNormal;
+attribute vec2 vTexCoord;
 
-varying vec3 fColor;
+varying vec2 fTexCoord;
 varying vec3 fNormal;
 varying vec3 fPosition;
 
@@ -15,6 +16,7 @@ uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
+uniform int nama;
 
 void main(){
 
@@ -40,9 +42,17 @@ void main(){
         0.0, 0.0, 1.0, 0.0,
         0.0, 0.0, 0.0, 1.0
     );
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vPosition, 1.0);
-
-    fColor = vColor;
-    fNormal = normalize(normalMatrix * vNormal);
-    fPosition = vec3(modelMatrix * vec4(vPosition, 1.0));
+    
+    if(nama == 0){
+        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vCubePosition, 1.0);
+        fTexCoord = vTexCoord;
+        fNormal = vNormal;
+        fPosition = vCubePosition;
+    }
+    else if(nama == 2){
+        gl_Position = vec4(vPosition, 0, 1);
+        // fPosition = vPosition;
+    }
+    
+   
 }
